@@ -21,10 +21,10 @@ class Test(MycroftSkill):
     def __init__(self):
         super(MycroftSkill, self).__init__(name="MycroftSkill")
 
-    @intent_file_handler('cal.appointments.single.intent')
+    @intent_file_handler('cal.appt.single.intent')
     def handle_cal_today(self, message):
         # word = message.data.get('your_keyword')
-        self.speak_dialog('cal.appointments.single', {whentime: '3pm'})
+        self.speak_dialog('cal.appt.single', {whentime: '3pm'})
 
     def handle_cal_new(self, message)
         pass
