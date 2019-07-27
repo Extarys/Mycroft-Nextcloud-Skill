@@ -1,3 +1,2 @@
-What is on the calendar (today|)
-What do I have today
-Do I have something (today|for today)
+What is on the calendar {datetime}
+(What|) Do (I|we) (have (something|)|got) (for|) {time}

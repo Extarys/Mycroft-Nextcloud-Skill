@@ -1,0 +1,1 @@
+(Create|Add|(I|We) have) an appointment ((at|on) {timedate}|tomorrow (at|) {time}|the day after {date} (at {time}|{time})) (for {event}|)
