@@ -67,17 +67,17 @@ class NextcloudSkill(MycroftSkill):
     # Test get an event
     @intent_file_handler('cal.appt.single.intent')
     def handle_cal_today(self, message):
-        timedate = message.data.get('timedate')
-        LOGGER.debug(timedate)
-        self.speak(timedate)
-        # self.speak_dialog('cal.appt.single', {timedate: '3pm'})
+        datetime = message.data.get('datetime')
+        LOGGER.debug(datetime)
+        self.speak(datetime)
+        # self.speak_dialog('cal.appt.single', {datetime: '3pm'})
 
     # Test create new event
     @intent_file_handler('cal.appt.new.intent')
-    def handle_cal_new(self, message)
+    def handle_cal_new(self, message):
         time = message.data.get('time')
         date = message.data.get('date')
-        timedate = message.data.get('timedate')
+        datetime = message.data.get('datetime')
 
         reminder_time = extract_datetime(timedate, now_local(), self.lang)
         self.speak('ok')
