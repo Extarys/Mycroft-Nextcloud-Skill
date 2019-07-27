@@ -34,3 +34,8 @@ skillMetadata:
           label: Caching
           options: "No cache|false;1 hour|3600"
           value: "false"
+        - name: checkInterval
+          type: select
+          label: Check for events and alerts
+          options: "Never check|false;1 hour|3600"
+          value: false

@@ -18,6 +18,7 @@ LOGGER = getLogger(__name__)
 
 MINUTES = 60  # seconds
 
+
 ## Stolen from skill-reminder
 def deserialize(dt):
     return datetime.strptime(dt, '%Y%d%m-%H%M%S-%z')
@@ -49,9 +50,12 @@ class NextcloudSkill(MycroftSkill):
         self.caldav_ = self.caldavConnect()
 
         # TODO Add caching
-        self.cache = {}
+        self.cache = {} # Caching object
         self.cache = self.settings.get("cache")
-        self.cacheTimeout = 0
+        self.cacheTimeout = 0 # Last fetch from remote, timestamp
+        # self.ticker = self.settings.get("checkInterval") # Every X minutes, check if an appointment is near and warn the user
+
+        
         
         # Reminder checker event
         # self.schedule_repeating_event(self.__check_calender, datetime.now(),
@@ -79,32 +83,52 @@ class NextcloudSkill(MycroftSkill):
         url = self.settings.get("url")
         LOGGER.info(username)
 
+        # FIXME If a parameter is missing, the skill should warn the user and stop.
         if not username:
+            LOGGER.error("No username in configuration.")
             self.speak_dialog('err.conf.username')
             return False
         elif not password:
+            LOGGER.error("No password in configuration.")
             self.speak_dialog('err.conf.password')
             return False
+        elif not url:
+            self.speak_dialog('err.conf.url')
+            return False
+
 
         caldavLink = protocol+"://"+username+":"+password+"@"+url
-        obj = caldav.DAVClient(caldavLink)
         LOGGER.info(caldavLink)
+        obj = caldav.DAVClient(caldavLink)
+        
         # Not sure how to close the connection once we are done.
         return obj
     
     # Test get an event
     @intent_file_handler('cal.appt.get.intent')
     def handle_cal_get(self, message):
+        self.please_wait()
 
+        # DateTime required
         timedate = message.data.get('timedate')
+
+        # Calendar name *not* required
         calendar = message.data.get('calendar')
 
         machine_timedate = extract_datetime(timedate)
+
         LOGGER.info(machine_timedate)
         LOGGER.info(calendar)
 
-        principal = self.caldav_.principal()
-        calendars = principal.calendars()
+        # principal = self.caldav_.principal()
+        # calendars = principal.calendars()
+
+        # r = calendars.date_search(datetime(2006,7,13,17,00,00),
+        #                   datetime(2006,7,15,17,00,00))
+
+                          
+        
+
 
         LOGGER.info(calendars)
 
@@ -118,7 +142,6 @@ class NextcloudSkill(MycroftSkill):
     def handle_cal_list(self, message):
         self.please_wait()
 
-        # caldav_ = self.caldavConnect()
         principal = self.caldav_.principal()
         calendars = principal.calendars()
 
@@ -165,7 +188,6 @@ class NextcloudSkill(MycroftSkill):
     def please_wait(self):
         # TODO If caching is enabled, do not say that!
         self.speak_dialog('looking', expect_response=False)
-
 
 
 def create_skill():
