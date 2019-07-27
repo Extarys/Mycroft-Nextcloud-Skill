@@ -4,14 +4,14 @@ Connect nextcloud services to mycroft
 
 ## NOT FONCTIONNAL
 I'm currently trying to figure out how everything works... please bear with me :)
-Caching mechanism: 🚧
-Get appointments
-Create appointments
-Ask for more details (when time or event title is omited)
-Get contact info
-Create contact info
-Get note
-Add note
+* Caching mechanism: 🚧
+* Get appointments
+* Create appointments
+* Ask for more details (when time or event title is omited)
+* Get contact info
+* Create contact info
+* Get note
+* Add note
 
 
 
@@ -24,7 +24,7 @@ You can now add a contact to Nextcloud in 15 seconds with your voice
 ## Examples
 
 ### Calendar
-* "List my calendars" ✔
+* "List my calendars" ☑
 * "What is on the calendar today"
 * "Do I have anything for tomorrow"
 * "Do I have anything for today in Meals"
