@@ -24,7 +24,7 @@ class Test(MycroftSkill):
     @intent_file_handler('cal.appointments.single.intent')
     def handle_cal_today(self, message):
         # word = message.data.get('your_keyword')
-        self.speak_dialog('cal.appointments.single')
+        self.speak_dialog('cal.appointments.single', {whentime: '3pm'})
 
     def handle_cal_new(self, message)
         pass
