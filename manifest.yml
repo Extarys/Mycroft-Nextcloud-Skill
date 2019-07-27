@@ -1,0 +1,10 @@
+dependencies:
+  python:
+    - vobject
+    - ics
+    - caldav
+    - pyyaml
+
+  system:
+    all: libxml2-dev libxslt-dev python-dev python3-lxml
+
