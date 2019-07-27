@@ -4,18 +4,44 @@ Connect nextcloud services to mycroft
 
 ## NOT FONCTIONNAL
 I'm currently trying to figure out how everything works... please bear with me :)
+Caching mechanism: 🚧
+Get appointments
+Create appointments
+Ask for more details (when time or event title is omited)
+Get contact info
+Create contact info
+Get note
+Add note
+
+
 
 ## About
-Control your contacts and your calendar with voice!
+Control your contacts and your calendar with Mycroft!
+
+Ability to create appointments in any calendars.
+You can now add a contact to Nextcloud in 15 seconds with your voice
 
 ## Examples
+
+### Calendar
+* "List my calendars" ✔
 * "What is on the calendar today"
-* "Do i have anything for tomorrow"
-* "Do i have any appointment 2 days"
-* "What do i have on friday"
+* "Do I have anything for tomorrow"
+* "Do I have anything for today in Meals"
+* "Do I have any appointment in 2 days"
+* "What do I have on friday"
+* "I have an appointment tomorrow evening at the school"
+* "Add an appointment in Shopping on the 5th of this month at 2 o'clock for a haircut"
+
+### Contact (Not sure it will work properly)
+* "What is the cellphone number of Jane?"
+* "Create a contact for Alex. His phone number is 123-555-4455
 
 ## Credits
-SickWolf
+SickWolf AKA Jeremy Dicaire
+
+### Interested testers
+gras64
 
 ## Category
 **Productivity**

@@ -1,4 +1,4 @@
-name: Test
+name: Nextcloud
 skillMetadata:
   sections:
     - name: Options << Name of section
@@ -8,10 +8,10 @@ skillMetadata:
           label: Setting Friendly Display Name
           value: ""
           placeholder: demo prompt in the input box
-    - name: Login << Name of another section
+    - name: Login
       fields:
         - type: label
-          label: Just a little bit of extra info for the user to understand following settings
+          label: Nextcloud/CalDAV information
         - name: username
           type: text
           label: Username
@@ -20,3 +20,17 @@ skillMetadata:
           type: password
           label: Password
           value: ""
+        - name: protocol
+          type: select
+          label: Protocol
+          options: "HTTPS|https;HTTP|http"
+          value: "https"
+        - name: url
+          type: text
+          label: Server's url
+          value: "example.com/nextcloud/remote.php/dav"
+        - name: cache
+          type: select
+          label: Caching
+          options: "No cache|false;1 hour|3600"
+          value: "false"

@@ -1,6 +1,8 @@
 import time
 from datetime import datetime
 import json
+import caldav
+from caldav.elements import dav, cdav
 
 from padatious.intent_container import IntentContainer
 #from adapt.intent import IntentBuilder
@@ -44,7 +46,13 @@ def is_affirmative(utterance, lang='en-us'):
 class NextcloudSkill(MycroftSkill):
     def __init__(self):
         super(NextcloudSkill, self).__init__()
-        LOGGER.debug('Nextcloud loaded')
+        self.caldav_ = self.caldavConnect()
+
+        # TODO Add caching
+        self.cache = {}
+        self.cache = self.settings.get("cache")
+        self.cacheTimeout = 0
+        
         # Reminder checker event
         # self.schedule_repeating_event(self.__check_calender, datetime.now(),
         #                               0.5 * MINUTES, name='reminder')
@@ -64,20 +72,83 @@ class NextcloudSkill(MycroftSkill):
     #             self.add_notification(r[0], r[0], dt)
     #     self.remove_handled(handled_reminders)
 
+    def caldavConnect(self):
+        username = self.settings.get("username")
+        password = self.settings.get("password")
+        protocol = self.settings.get("protocol")
+        url = self.settings.get("url")
+        LOGGER.info(username)
+
+        if not username:
+            self.speak_dialog('err.conf.username')
+            return False
+        elif not password:
+            self.speak_dialog('err.conf.password')
+            return False
+
+        caldavLink = protocol+"://"+username+":"+password+"@"+url
+        obj = caldav.DAVClient(caldavLink)
+        LOGGER.info(caldavLink)
+        # Not sure how to close the connection once we are done.
+        return obj
+    
     # Test get an event
-    @intent_file_handler('cal.appt.single.intent')
-    def handle_cal_today(self, message):
-        datetime = message.data.get('datetime')
-        LOGGER.debug(datetime)
-        self.speak(datetime)
+    @intent_file_handler('cal.appt.get.intent')
+    def handle_cal_get(self, message):
+
+        timedate = message.data.get('timedate')
+        calendar = message.data.get('calendar')
+
+        machine_timedate = extract_datetime(timedate)
+        LOGGER.info(machine_timedate)
+        LOGGER.info(calendar)
+
+        principal = self.caldav_.principal()
+        calendars = principal.calendars()
+
+        LOGGER.info(calendars)
+
+        self.speak("I don't know")
         # self.speak_dialog('cal.appt.single', {datetime: '3pm'})
 
-    # Test create new event
+    """
+        Get the list of the calendars' names.
+    """
+    @intent_file_handler('cal.list.intent')
+    def handle_cal_list(self, message):
+        self.please_wait()
+
+        # caldav_ = self.caldavConnect()
+        principal = self.caldav_.principal()
+        calendars = principal.calendars()
+
+        listcals = list()
+        totalCalendars = len(calendars)
+        
+        # There is at least one calendar.
+        if totalCalendars > 0:
+            for calendar in calendars:
+                tnameRaw = calendar.get_properties([dav.DisplayName(),])
+                tname = tnameRaw[dav.DisplayName.tag]
+                listcals.append(tname)
+            
+            cals = ", ".join(listcals)
+
+            self.speak_dialog('cal.list.calendars', data={"totalCalendars": totalCalendars, "calendars": cals}, expect_response=False)
+
+        # There is no calendar.
+        else:
+            self.speak_dialog('cal.list.calendars.none', expect_response=False)
+
+
+    """
+        Create an appointment/event
+    """
     @intent_file_handler('cal.appt.new.intent')
     def handle_cal_new(self, message):
         time = message.data.get('time')
         date = message.data.get('date')
-        datetime = message.data.get('datetime')
+        timedate = message.data.get('timedate')
 
         reminder_time = extract_datetime(timedate, now_local(), self.lang)
         self.speak('ok')
@@ -87,6 +158,13 @@ class NextcloudSkill(MycroftSkill):
         # self.speak(cal.appt.new, {'time': nice_time(reminder_time),
         #                        'date': nice_date(reminder_time)})
         
+    """
+        Make Mycroft say something while it fetch the information remotly
+        Shoudn't say that when caching is enabled, except if the cache is being refreshed
+    """
+    def please_wait(self):
+        # TODO If caching is enabled, do not say that!
+        self.speak_dialog('looking', expect_response=False)
 
 
 
