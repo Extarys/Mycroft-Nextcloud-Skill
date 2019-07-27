@@ -43,7 +43,7 @@ def is_affirmative(utterance, lang='en-us'):
 
 class NextcloudSkill(MycroftSkill):
     def __init__(self):
-        super(ReminderSkill, self).__init__()
+        super(NextcloudSkill, self).__init__()
         LOGGER.debug('Nextcloud loaded')
         # Reminder checker event
         # self.schedule_repeating_event(self.__check_calender, datetime.now(),
