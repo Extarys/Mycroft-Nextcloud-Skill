@@ -51,7 +51,7 @@ class NextcloudSkill(MycroftSkill):
 
         # TODO Add caching
         self.cache = {} # Caching object
-        self.cache = self.settings.get("cache")
+        self.cache = self.settings.get('cache')
         self.cacheTimeout = 0 # Last fetch from remote, timestamp
         # self.ticker = self.settings.get("checkInterval") # Every X minutes, check if an appointment is near and warn the user
 
@@ -77,10 +77,10 @@ class NextcloudSkill(MycroftSkill):
     #     self.remove_handled(handled_reminders)
 
     def caldavConnect(self):
-        username = self.settings.get("username")
-        password = self.settings.get("password")
-        protocol = self.settings.get("protocol")
-        url = self.settings.get("url")
+        username = self.settings.get('username')
+        password = self.settings.get('password')
+        protocol = self.settings.get('protocol')
+        url = self.settings.get('url')
         LOGGER.info(username)
 
         # FIXME If a parameter is missing, the skill should warn the user and stop.
