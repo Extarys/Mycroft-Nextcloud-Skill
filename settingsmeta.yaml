@@ -1,13 +1,6 @@
 name: Nextcloud
 skillMetadata:
   sections:
-    - name: Options << Name of section
-      fields:
-        - name: internal_python_variable_name
-          type: text
-          label: Setting Friendly Display Name
-          value: ""
-          placeholder: demo prompt in the input box
     - name: Login
       fields:
         - type: label
@@ -38,4 +31,4 @@ skillMetadata:
           type: select
           label: Check for events and alerts
           options: "Never check|false;1 hour|3600"
-          value: false
+          value: "false"
